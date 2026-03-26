@@ -1,0 +1,74 @@
+/* Alap beállítások */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+/* Fő konténer */
+.container {
+    background: #ffffff;
+    padding: 20px;
+    width: 320px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Cím */
+h2 {
+    margin-bottom: 15px;
+}
+
+/* Input mező */
+input {
+    width: 65%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Gomb */
+button {
+    padding: 8px 10px;
+    margin-left: 5px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Lista */
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+/* Lista elemek */
+li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+li:hover {
+    background-color: #dddddd;
+}
+
+/* Kész feladat */
+li.done {
+    text-decoration: line-through;
+    color: #555;
+    background-color: #cfcfcf;
+}
