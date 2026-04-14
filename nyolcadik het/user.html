@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Felhasználó adatlap</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Felhasználó adatlap</h1>
+    <div id="userData"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+    function getUserId() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("id");
+    }
+
+    async function loadUser() {
+        const userId = getUserId();
+
+        if (!userId) {
+            document.getElementById("userData").innerHTML =
+                "<p style='color:red;'>Nincs megadva felhasználó!</p>";
+            return;
+        }
+
+        try {
+            const res = await fetch(`https://api.github.com/users/${userId}`);
+            const user = await res.json();
+
+            if (user.message) {
+                document.getElementById("userData").innerHTML =
+                    `<p style="color:red;">Hiba: ${user.message}</p>`;
+                return;
+            }
+
+            displayUser(user);
+
+        } catch (err) {
+            console.error(err);
+            document.getElementById("userData").innerHTML =
+                "<p style='color:red;'>Hiba történt!</p>";
+        }
+    }
+
+    function createField(label, value, isLink = false) {
+        if (value === null || value === "") return "";
+
+        if (isLink) {
+            return `<p><strong>${label}:</strong> <a href="${value}" target="_blank">${value}</a></p>`;
+        }
+
+        return `<p><strong>${label}:</strong> ${value}</p>`;
+    }
+
+    function displayUser(user) {
+        const container = document.getElementById("userData");
+
+        container.innerHTML = `
+            <div class="card">
+
+                <img src="${user.avatar_url}" class="avatar">
+
+                ${createField("Név", user.name)}
+                ${createField("Blog", user.blog, true)}
+                ${createField("Hely", user.location)}
+                ${createField("Bio", user.bio)}
+                ${createField("Publikus repo", user.public_repos)}
+                ${createField("Követők", user.followers)}
+
+            </div>
+        `;
+    }
+
+    loadUser();
+</script>
+
+</body>
+</html>

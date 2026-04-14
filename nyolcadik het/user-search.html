@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Felhasználó keresés</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>GitHub felhasználó kereső</h2>
+
+    <input type="text" id="searchInput" placeholder="Felhasználónév...">
+    <button class="btn btn-primary" id="searchBtn">Keresés</button>
+
+    <ul id="resultList"></ul>
+</div>
+
+<script src="app.js"></script>
+<script>
+    const input = document.getElementById("searchInput");
+    const button = document.getElementById("searchBtn");
+    const list = document.getElementById("resultList");
+
+    button.addEventListener("click", searchUser);
+
+    function searchUser() {
+        const query = input.value.trim();
+
+        if (query === "") {
+            alert("Adj meg egy felhasználónevet!");
+            return;
+        }
+
+        list.innerHTML = "";
+
+        fetch(`https://api.github.com/search/users?q=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                displayUsers(data.items);
+            });
+    }
+
+    function displayUsers(users) {
+        users.forEach(user => {
+            const li = document.createElement("li");
+
+            li.innerHTML = `
+                <a href="user.html?id=${user.login}">
+                    <img src="${user.avatar_url}">
+                    ${user.login}
+                </a>
+            `;
+
+            list.appendChild(li);
+        });
+    }
+
+    input.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            searchUser();
+        }
+    });
+</script>
+
+</body>
+</html>
